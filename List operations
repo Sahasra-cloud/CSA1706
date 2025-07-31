@@ -1,0 +1,23 @@
+# 1. Nested List
+list1 = [1, 2, [3, 4], 5]
+print("Nested List:", list1)
+
+# 2. Length of List (
+count = 0
+for _ in list1:
+    count += 1
+print("Length of List:", count)
+
+# 3. Concatenation 
+list2 = [6, 7, 8]
+concat_list = []
+for item in list1:
+    concat_list.append(item)
+for item in list2:
+    concat_list.append(item)
+print("Concatenation Result:", concat_list)
+
+# 4. Membership 
+search_element = 4
+found = False
+for item in co

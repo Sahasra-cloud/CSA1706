@@ -1,0 +1,31 @@
+def add_matrices(matrix1, matrix2):
+    # Get the number of rows and columns
+    rows = len(matrix1)
+    cols = len(matrix1[0])
+
+    # Initialize result matrix with zeros
+    result = [[0 for _ in range(cols)] for _ in range(rows)]
+
+    # Add corresponding elements
+    for i in range(rows):
+        for j in range(cols):
+            result[i][j] = matrix1[i][j] + matrix2[i][j]
+
+    return result
+
+# Example usage:
+matrix1 = [
+    [1, 2, 3],
+    [4, 5, 6]
+]
+
+matrix2 = [
+    [7, 8, 9],
+    [10, 11, 12]
+]
+
+result = add_matrices(matrix1, matrix2)
+
+print("Sum of matrices:")
+for row in result:
+    print(row)

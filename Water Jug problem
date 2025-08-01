@@ -1,0 +1,49 @@
+from collections import deque
+
+def water_jug_bfs(cap_x, cap_y, target):
+    visited = set()
+    queue = deque()
+
+    # Each state: (x, y), with path history
+    queue.append(((0, 0), []))
+
+    while queue:
+        (x, y), path = queue.popleft()
+
+        # If the current state meets the target
+        if x == target or y == target:
+            path.append((x, y))
+            print("Solution found:")
+            for state in path:
+                print(f"Jug1: {state[0]} liters, Jug2: {state[1]} liters")
+            return
+
+        # Skip already visited states
+        if (x, y) in visited:
+            continue
+
+        visited.add((x, y))
+        path = path + [(x, y)]
+
+        # Generate all possible next states
+        next_states = [
+            (cap_x, y),           # Fill Jug1
+            (x, cap_y),           # Fill Jug2
+            (0, y),               # Empty Jug1
+            (x, 0),               # Empty Jug2
+            (0, x + y) if x + y <= cap_y else (x - (cap_y - y), cap_y),  # Pour Jug1 → Jug2
+            (x + y, 0) if x + y <= cap_x else (cap_x, y - (cap_x - x))   # Pour Jug2 → Jug1
+        ]
+
+        for state in next_states:
+            if state not in visited:
+                queue.append((state, path))
+
+    print("No solution found.")
+
+if __name__ == "__main__":
+    cap_x = 4   # Capacity of Jug1
+    cap_y = 3   # Capacity of Jug2
+    target = 2  # Target amount to be measured
+
+    water_jug_bfs(cap_x, cap_y, target)

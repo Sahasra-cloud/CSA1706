@@ -1,0 +1,55 @@
+from collections import deque
+
+# Each state is represented as (M_left, C_left, Boat_pos)
+# Boat_pos = 1 means boat is on the left, 0 means on the right
+
+def is_valid(m, c):
+    return (m == 0 or m >= c) and (3 - m == 0 or 3 - m >= 3 - c)
+
+def get_successors(state):
+    m, c, boat = state
+    successors = []
+
+    moves = [(1, 0), (2, 0), (0, 1), (0, 2), (1, 1)]
+
+    for dm, dc in moves:
+        if boat == 1:  # boat on left side
+            new_m, new_c = m - dm, c - dc
+            new_boat = 0
+        else:  # boat on right side
+            new_m, new_c = m + dm, c + dc
+            new_boat = 1
+
+        if 0 <= new_m <= 3 and 0 <= new_c <= 3:
+            if is_valid(new_m, new_c):
+                successors.append((new_m, new_c, new_boat))
+
+    return successors
+
+def bfs():
+    start = (3, 3, 1)
+    goal = (0, 0, 0)
+    queue = deque()
+    visited = set()
+    queue.append((start, [start]))
+
+    while queue:
+        state, path = queue.popleft()
+
+        if state == goal:
+            print("Solution found in", len(path) - 1, "moves:\n")
+            for step in path:
+                m, c, b = step
+                print(f"Left Side: M={m}, C={c} | Right Side: M={3-m}, C={3-c} | Boat on {'Left' if b == 1 else 'Right'}")
+            return
+
+        visited.add(state)
+
+        for successor in get_successors(state):
+            if successor not in visited:
+                queue.append((successor, path + [successor]))
+
+    print("No solution found.")
+
+if __name__ == "__main__":
+    bfs()

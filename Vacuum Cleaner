@@ -1,0 +1,31 @@
+import random
+
+class VacuumEnvironment:
+    def __init__(self):
+        # Randomly assign 'Dirty' or 'Clean' to both rooms
+        self.room_A = random.choice(['Clean', 'Dirty'])
+        self.room_B = random.choice(['Clean', 'Dirty'])
+        self.vacuum_location = random.choice(['A', 'B'])  # Starting position
+
+    def display_status(self):
+        print(f"Room A: {self.room_A}, Room B: {self.room_B}")
+        print(f"Vacuum Location: Room {self.vacuum_location}")
+
+class ReflexVacuumAgent:
+    def __init__(self, environment):
+        self.environment = environment
+
+    def clean(self):
+        if self.environment.vacuum_location == 'A':
+            if self.environment.room_A == 'Dirty':
+                print("Action: Suck dirt in Room A")
+                self.environment.room_A = 'Clean'
+            else:
+                print("Action: Move to Room B")
+                self.environment.vacuum_location = 'B'
+        elif self.environment.vacuum_location == 'B':
+            if self.environment.room_B == 'Dirty':
+                print("Action: Suck dirt in Room B")
+                self.environment.room_B = 'Clean'
+            else:
+                print("Ac

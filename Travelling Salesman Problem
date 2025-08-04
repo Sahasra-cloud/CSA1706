@@ -1,0 +1,41 @@
+import itertools
+
+# Distance matrix between cities
+# Example with 4 cities (A, B, C, D)
+# The matrix[i][j] represents distance from city i to city j
+distance_matrix = [
+    [0, 10, 15, 20],   # A
+    [10, 0, 35, 25],   # B
+    [15, 35, 0, 30],   # C
+    [20, 25, 30, 0]    # D
+]
+
+def tsp_brute_force(distance_matrix):
+    n = len(distance_matrix)
+    cities = list(range(n))  # City indices: [0, 1, 2, 3]
+
+    min_path = None
+    min_cost = float('inf')
+
+    # Try all possible orders of visiting cities (excluding starting city 0)
+    for perm in itertools.permutations(cities[1:]):
+        path = [0] + list(perm) + [0]  # start and end at city 0
+        cost = 0
+        for i in range(len(path) - 1):
+            cost += distance_matrix[path[i]][path[i + 1]]
+
+        if cost < min_cost:
+            min_cost = cost
+            min_path = path
+
+    return min_path, min_cost
+
+# Run TSP
+optimal_path, optimal_cost = tsp_brute_force(distance_matrix)
+
+# Print results
+city_labels = ['A', 'B', 'C', 'D']
+path_labels = [city_labels[i] for i in optimal_path]
+
+print("Optimal Path:", " -> ".join(path_labels))
+print("Minimum Cost:", optimal_cost)

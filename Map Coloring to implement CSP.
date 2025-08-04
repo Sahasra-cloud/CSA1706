@@ -1,0 +1,51 @@
+# Define the map of Australia with neighbors
+neighbors = {
+    'WA': ['NT', 'SA'],
+    'NT': ['WA', 'SA', 'Q'],
+    'SA': ['WA', 'NT', 'Q', 'NSW', 'V'],
+    'Q': ['NT', 'SA', 'NSW'],
+    'NSW': ['Q', 'SA', 'V'],
+    'V': ['SA', 'NSW'],
+    'T': []  # Tasmania is an island
+}
+
+# Define available colors
+colors = ['Red', 'Green', 'Blue']
+
+# Function to check if color assignment is valid
+def is_valid(assignment, state, color):
+    for neighbor in neighbors[state]:
+        if neighbor in assignment and assignment[neighbor] == color:
+            return False
+    return True
+
+# Backtracking CSP solver
+def backtrack(assignment):
+    # If all states are assigned a color, return the assignment
+    if len(assignment) == len(neighbors):
+        return assignment
+
+    # Select an unassigned state
+    unassigned = [s for s in neighbors if s not in assignment]
+    state = unassigned[0]
+
+    for color in colors:
+        if is_valid(assignment, state, color):
+            assignment[state] = color
+            result = backtrack(assignment)
+            if result:
+                return result
+            del assignment[state]  # backtrack
+
+    return None  # No valid assignment found
+
+# Run the CSP solver
+solution = backtrack({})
+
+# Print the solution
+if solution:
+    print("Map Coloring Solution:")
+    for state in sorted(solution):
+        print(f"{state}: {solution[state]}")
+else:
+    print("No solution found.")

@@ -1,0 +1,16 @@
+import math
+from collections import Counter
+
+def entropy(data):
+    labels = [row[-1] for row in data]
+    total = len(labels)
+    counts = Counter(labels)
+    ent = 0.0
+    for count in counts.values():
+        p = count / total
+        ent -= p * math.log2(p)
+    return ent
+
+def split_data(data, feature_index, value):
+    left = [row for row in data if row[feature_index] == value]
+    right = [row for row in data if row[feature_index] != valu_]()]()
